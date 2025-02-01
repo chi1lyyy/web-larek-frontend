@@ -55,13 +55,47 @@ yarn build
   
   При нажатии на кнопку оплаты в модальном окне ввода данных о покупателе открывается модальное окно успешного оформления заказа (**SuccessModal**), сообщающее пользователю об успешном оформлении заказа, корзина очищается.
 
-Так как модальные окна в проекте однотипные, то их общая логика и структура вынесена в абстрактный класс BaseModalWindow, все модальные окна (ProductModal, CartModal, OrderModal, ClientModal, SuccessModal) наследуются от этого компонента.
 
 ## Компоненты
 Компоненты реализации проекта можно разделить на три слоя:
-1. Слой данных. Отвечает за хранение даннымх в приложении. Состоит из компонентов(?)/классов **Product**, **Cart**, **Order** 
-2. Слой отображения. Отвечает за отображение данных. Включает в себя **Products**, **BaseModalWindow** (общая структура модальных окон), **ProductModal**, **CartModal**, **OrderModal**, **ClientModal**, **SuccessModal**
+1. Слой данных. Отвечает за хранение даннымх в приложении. Состоит из классов **Product**, **Cart**, **Order** 
+2. Слой отображения. Отвечает за отображение данных. Включает в себя **Products**(?), **BaseModalWindow** (общая структура модальных окон), **ProductModal**, **CartModal**, **OrderModal**, **ClientModal**, **SuccessModal**
 3. Слой взаимодействия. Отвечает за взаимодействие между слоями и логику приложения. Включает брокер событий **EventEmitter** и класс всего приложения **App**.
 
 ### Слой данных
 
+Класс **Product** содержит данные/реализует объект данных о товаре, полученных из API. Имплиментирует интерфейс **IProduct** (?). Содержит свойства *id, description, image, title, category, price*. Конструктор ... 
+
+- **Cart**,
+- **Order** 
+
+### Слой отображения
+
+Так как модальные окна в проекте однотипные, то их общая логика и структура вынесена в абстрактный класс BaseModalWindow, все модальные окна (ProductModal, CartModal, OrderModal, ClientModal, SuccessModal) наследуются от этого компонента.
+
+- **Products** отвечает за отображение каталога товаров.
+  
+- **BaseModalWindow** реализует общую логику открытия/закрытия модальных окон на странице.
+  Имеет свойства
+ 
+  modalElement: HTMLElement | null: Корневой элемент модального окна в DOM.
+  closeButton: HTMLElement | null: Кнопка "Закрыть" внутри модального окна.
+  overlay: HTMLElement | null: Оверлей модального окна.
+  ? nextButton: HTMLElement | null: Кнопка перехода на следующую страницу (если есть).
+  ? isOpen: boolean: Состояние модального окна (открыто/закрыто). По умолчанию: false.
+
+  Конструктор принимает селектор модального окна и инициализирует свойства класса.
+  ```typescript
+  constructor(modalSelector: string) {
+        this.modalElement = document.querySelector(modalSelector);
+        this.closeButton = this.modalElement?.querySelector(".close-button") || null;
+        this.overlay = this.modalElement?.querySelector(".overlay") || null;
+        ? this.nextButton = this.modalElement?.querySelector(".next-button") || null;
+  }
+
+
+- **ProductModal** наследует класс **BaseModalWindow**
+- **CartModal** наследует класс **BaseModalWindow**
+- **OrderModal** наследует класс **BaseModalWindow**
+- **ClientModal** наследует класс **BaseModalWindow**
+- **SuccessModal** наследует класс **BaseModalWindow**
