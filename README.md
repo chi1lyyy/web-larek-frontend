@@ -64,10 +64,17 @@ yarn build
 
 ### Слой данных
 
-Класс **Product** содержит данные/реализует объект данных о товаре, полученных из API. Имплиментирует интерфейс **IProduct** (?). Содержит свойства *id, description, image, title, category, price*. Конструктор ... 
+- Класс **Product** содержит данные/реализует объект данных о товаре/ах(?), полученных из API. Имплиментирует интерфейс **IProduct** (?). Содержит свойства *id, description, image, title, category, price*. Конструктор ... пустой(?). Класс содержит метод getProductById(id), возвращающий информацию о конкретном товаре по его идентификатору. (возвращает промис. запрос в АПИ по {{baseUrl}}/product/${id})
 
-- **Cart**,
-- **Order** 
+- Класс **Cart** хранит данные о корзине товаров. Имеет свойства items: Product[], total: number, в конструкторе инициализируется пустой массив добавленных в корзину товаров и общая (нулевая) сумма заказа. Методы:
+?  addItem(product: Product). Добавляет товар в корзину
+  removeItem(productId: string). Удаляет товар из корзины.
+  countTotal(). Считает общую сумму товаров в корзине.
+? countProducts()?? Считает общее количество товаров в корзине (для счетчика) ??
+  
+- **Order** реализует заказ товаров, добавленных в корзину для передачи данных на сервер. ?Имплиментирует интерфейс **IOrder** (?). Содержит свойства интерфейса. В конструкторе инициализируется пустой заказ. Методы:
+  setPayment, setEmail, setPhone, setAddress, setTotal, setItems - устанавливают данные заказа.
+?  validate()
 
 ### Слой отображения
 
@@ -80,7 +87,8 @@ yarn build
  
   modalElement: HTMLElement | null: Корневой элемент модального окна в DOM.
   closeButton: HTMLElement | null: Кнопка "Закрыть" внутри модального окна.
-  overlay: HTMLElement | null: Оверлей модального окна.
+  content: HTMLElement | null: Контейнер для контента.
+  ? overlay: HTMLElement | null: Оверлей модального окна.
   ? nextButton: HTMLElement | null: Кнопка перехода на следующую страницу (если есть).
   ? isOpen: boolean: Состояние модального окна (открыто/закрыто). По умолчанию: false.
 
@@ -88,14 +96,20 @@ yarn build
   ```typescript
   constructor(modalSelector: string) {
         this.modalElement = document.querySelector(modalSelector);
-        this.closeButton = this.modalElement?.querySelector(".close-button") || null;
-        this.overlay = this.modalElement?.querySelector(".overlay") || null;
+        this.closeButton = this.modalElement?.querySelector(".close-button") ;
+        this.contentElement = this.modalElement?.querySelector(".modal__content") || null;
+        ? this.overlay = this.modalElement?.querySelector(".overlay") || null;
         ? this.nextButton = this.modalElement?.querySelector(".next-button") || null;
   }
+Имеет методы 
+open(), close(). Открывают/закрывают модальные окна, добавляя/удаляя класс '.modal_active'.
+render(content). Вставляет в модальное окно переданный контент.
+handleClose(event: Event). Обрабатывает клик на кнопку закрытия.
+? addEventListeners(): void: Добавляет обработчики событий для кнопки "Закрыть".
+? removeEventListeners(): void: Удаляет обработчики событий при закрытии модального окна.
 
-
-- **ProductModal** наследует класс **BaseModalWindow**
-- **CartModal** наследует класс **BaseModalWindow**
+- **ProductModal** наследует класс **BaseModalWindow**. Имеет метод addToCart, который позволяет добавить товар в корзину.
+- **CartModal** наследует класс **BaseModalWindow**. 
 - **OrderModal** наследует класс **BaseModalWindow**
 - **ClientModal** наследует класс **BaseModalWindow**
 - **SuccessModal** наследует класс **BaseModalWindow**
