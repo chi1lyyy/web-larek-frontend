@@ -1,9 +1,13 @@
-//1. Работа с данными: 
-
 // Интерфейс для данных о товарах, приходящих от API
-interface APIProducts {
+interface IAPIProducts {
     total: number;
     products: IProduct[]
+}
+
+interface ApiService {
+    getProducts(): Promise<IAPIProducts>;
+    getProductItem(id: string): Promise<IProduct>;
+    submitOrder(orderData: IOrderData): Promise<void>
 }
 
 //Интерфейс товара
@@ -39,31 +43,59 @@ interface IOrderData {
     items: string[];
 }
 
+// Интерфейс для презентера
+interface App {
+    //
+
+}
 
 
-/*
+//Интерфейс для настройки отображения каталога карточек
+interface ICatalogView {
+    gallery: HTMLElement;
+    cardTemplate: HTMLTemplateElement;
 
-//Глобальное состояние? Модель данных.???
-
-//2. Работа с отображением:
-//Интерфейс для настройки отображения из верстки
-interface IProductCard {
-    category: string;
-    title: string;
-    image: string;
-    price: string;
-    //tags??
+    createCard(product: IProduct) : HTMLElement;
+    render(products: IProduct[]): void
 }
 
 //
-interface BaseModalWindow {
+interface IModalWindow {
+    modalElement: HTMLElement;
     closeButton: HTMLButtonElement;
     content: HTMLElement;
 
     open(): void;
     close(): void;
+    handleClose(event: MouseEvent): void;
+    render(content: HTMLElement): void
 }
 
+interface IProductView {
+    cardImage: string;
+    cardCategory: HTMLElement;
+    cardTitle: HTMLElement;
+    cardText: HTMLElement;
+    cardPrice: HTMLElement;
+    cardButton: HTMLButtonElement;
+
+    render(product: IProduct): void;
+    changeButton(): void
+}
+
+interface ICartView {
+    basketList: HTMLElement;
+    totalPrice: HTMLElement;
+    orderButton: HTMLButtonElement;
+
+    render(items: IProduct[]): void;
+    createCartItem(item: IProduct): HTMLElement
+}
+
+
+  
+
+ 
 //константы-настройки???
 
 /*Компоненты модели данных.
