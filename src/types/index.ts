@@ -44,10 +44,14 @@ interface IOrderData {
     items: string[];
 }
 
-// Интерфейс для презентера
-interface App {
-    //
 
+interface IOrder {
+    setPayment(payment: PaymemtMathod): void;
+    setEmail(email: string): void;
+    setPhone(phone: string): void;
+    setAddress(address: string): void;
+    setCartData(cart: ICart): void;
+    validate(): boolean
 }
 
 
@@ -56,7 +60,7 @@ interface ICatalogView {
     gallery: HTMLElement;
     cardTemplate: HTMLTemplateElement;
 
-    createCard(product: IProduct) : HTMLElement;
+    createCard(product: IProduct): HTMLElement;
     render(products: IProduct[]): void
 }
 
@@ -109,7 +113,7 @@ interface IOrderView {
     toggleNextButton(): void
 }
 
-interface ClientView {
+interface IClientView {
     emailInput: HTMLInputElement;
     phoneInput: HTMLInputElement;
     payButton: HTMLButtonElement;
@@ -119,9 +123,35 @@ interface ClientView {
     togglePayButton(): void
 }
 
-interface SuccessView {
+interface ISuccessView {
     totalPrice: number;
     closeButton: HTMLButtonElement
 }
 
-  
+interface App {
+    apiService: ApiService;
+    cart: ICart;
+    order: IOrder;
+    catalogView: ICatalogView;
+    cartView: ICartView;
+    orderView: IOrderView;
+    clientView: IClientView;
+    successModalView: ISuccessView;
+    cartCounter: ICartCounter;
+
+
+    setCatalog(items: IProduct): void;
+    openProductView(): void;
+    addToCart(product: string): void;
+    removeFromCart(productId: string): void;
+    updateCart(): void;
+    openOrderView(): void;
+    setPaymentMethod(paymemtMathod: PaymemtMathod): void;
+    setDeliveryAddress(address: string): void;
+    openClientView(): void;
+    setEmail(email: string): void;
+    setPhone(phone: string): void;
+    showSuccessModal(): void;
+    openCartView(): void;
+    submitOrder(): void;
+}
