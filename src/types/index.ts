@@ -29,6 +29,7 @@ interface ICart {
     getItems(): IProduct[];
     clearCart(): void;
     countTotal(): number;
+    countProducts(): number;
 }
 
 type PaymemtMathod = 'cash' | 'card';
@@ -57,6 +58,12 @@ interface ICatalogView {
 
     createCard(product: IProduct) : HTMLElement;
     render(products: IProduct[]): void
+}
+
+interface ICartCounter {
+    cartCounter: HTMLElement;
+
+    updateCartAmount(amount: number): void;
 }
 
 //
@@ -92,30 +99,29 @@ interface ICartView {
     createCartItem(item: IProduct): HTMLElement
 }
 
+interface IOrderView {
+    paymentButtons: NodeListOf<HTMLButtonElement>;
+    addressInput: HTMLInputElement;
+    nextButton: HTMLButtonElement;
+
+    handlePaymentSelection(event: MouseEvent): void;
+    handleAddressInput(event: Event): void;
+    toggleNextButton(): void
+}
+
+interface ClientView {
+    emailInput: HTMLInputElement;
+    phoneInput: HTMLInputElement;
+    payButton: HTMLButtonElement;
+
+    handleInputs(event: Event): void;
+    render(): void;
+    togglePayButton(): void
+}
+
+interface SuccessView {
+    totalPrice: number;
+    closeButton: HTMLButtonElement
+}
 
   
-
- 
-//константы-настройки???
-
-/*Компоненты модели данных.
-Класс Product реализует основные функции, совершаемые с карточками 
-оформите по такому плану: 
-Описание компонентов, их функций и связей с другими компонентами.При описании классов, компонентов и функций подумайте об ответах на такие вопросы: 
-Из каких основных частей состоит архитектура проекта? Это могут быть данные, отображения, экраны и так далее.
-Зачем нужны эти части, какие функции они выполняют?
-Как части взаимодействуют?
-Какие данные используются в приложении? Можете записать конкретные типы данных или интерфейсов, пояснив их функции.
-Из каких компонентов состоит приложение?
-Как реализованы процессы в приложении? Через события или как-то иначе, например с помощью контроллера или представителя.
-*/
-
-
-//работа с событиями реализована через брокер событий в классической реализации.
-//Класс EventEmmiter позволяет установить/снять обработчик на событие, инициировать
-//класс имеет свойство events, которое хранит объект, ключами которого являются названия событий, а значениями этих ключей являются функции - коллбэки подписчиков событий
-//конструктор не принимает никаких значений и инициализирует свойство events как пустой объект
-//методы класса:
-// on/off привязывает/удаляет коллбэк функцию, которая будет выполнена для события. методы принимают название события и функцию-коллбэк
-//  emit принимает название события в качестве параметров и вызывает выполнение зарегистрированных коллбэков для события
-
