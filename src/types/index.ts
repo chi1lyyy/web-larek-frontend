@@ -4,7 +4,7 @@ interface IAPIProducts {
     products: IProduct[]
 }
 
-interface ApiService {
+interface IApiService {
     getProducts(): Promise<IAPIProducts>;
     getProductItem(id: string): Promise<IProduct>;
     submitOrder(orderData: IOrderData): Promise<void>
@@ -32,11 +32,11 @@ interface ICart {
     countProducts(): number;
 }
 
-type PaymemtMathod = 'cash' | 'card';
+type PaymemtMethod = 'cash' | 'card';
 
 // Интерфейс для данных заказа (для отправки на сервер)
 interface IOrderData {
-    payment: PaymemtMathod;
+    payment: PaymemtMethod;
     email: string;
     phone: string;
     address: string;
@@ -46,7 +46,7 @@ interface IOrderData {
 
 
 interface IOrder {
-    setPayment(payment: PaymemtMathod): void;
+    setPayment(payment: PaymemtMethod): void;
     setEmail(email: string): void;
     setPhone(phone: string): void;
     setAddress(address: string): void;
@@ -128,8 +128,8 @@ interface ISuccessView {
     closeButton: HTMLButtonElement
 }
 
-interface App {
-    apiService: ApiService;
+interface IApp {
+    apiService: IApiService;
     cart: ICart;
     order: IOrder;
     catalogView: ICatalogView;
@@ -140,18 +140,18 @@ interface App {
     cartCounter: ICartCounter;
 
 
-    setCatalog(items: IProduct): void;
-    openProductView(): void;
-    addToCart(product: string): void;
+    setCatalog(items: IProduct[]): void;
+    openProductView(productId: string): void;
+    addToCart(product: IProduct): void;
     removeFromCart(productId: string): void;
     updateCart(): void;
     openOrderView(): void;
-    setPaymentMethod(paymemtMathod: PaymemtMathod): void;
+    setPaymentMethod(paymemtMethod: PaymemtMethod): void;
     setDeliveryAddress(address: string): void;
     openClientView(): void;
     setEmail(email: string): void;
     setPhone(phone: string): void;
     showSuccessModal(): void;
     openCartView(): void;
-    submitOrder(): void;
+    submitOrder(): Promise<void>;
 }
