@@ -22,14 +22,13 @@ interface IProduct {
 
 interface ICart {
     items: IProduct[];
-    total: number;
 
     addItem(product: IProduct): void;
     removeItem(id: string): void;
     getItems(): IProduct[];
     clearCart(): void;
-    countTotal(): number;
     countProducts(): number;
+    isInCart(id: string): boolean
 }
 
 type PaymemtMethod = 'cash' | 'card';
@@ -63,12 +62,14 @@ interface ICatalogView {
     createCard(product: IProduct): HTMLElement;
     render(products: IProduct[]): void
 }
-
-interface ICartCounter {
-    cartCounter: HTMLElement;
-
-    updateCartAmount(amount: number): void;
+interface IPage {
+    
 }
+// interface ICartCounter {
+//     cartCounter: HTMLElement;
+
+//     updateCartAmount(amount: number): void;
+// }
 
 //
 interface IModalWindow {
@@ -83,7 +84,7 @@ interface IModalWindow {
 }
 
 interface IProductView {
-    cardImage: string;
+    cardImage: HTMLElement;
     cardCategory: HTMLElement;
     cardTitle: HTMLElement;
     cardText: HTMLElement;
@@ -128,30 +129,30 @@ interface ISuccessView {
     closeButton: HTMLButtonElement
 }
 
-interface IApp {
-    apiService: IApiService;
-    cart: ICart;
-    order: IOrder;
-    catalogView: ICatalogView;
-    cartView: ICartView;
-    orderView: IOrderView;
-    clientView: IClientView;
-    successModalView: ISuccessView;
-    cartCounter: ICartCounter;
+// interface IApp {
+//     apiService: IApiService;
+//     cart: ICart;
+//     order: IOrder;
+//     catalogView: ICatalogView;
+//     cartView: ICartView;
+//     orderView: IOrderView;
+//     clientView: IClientView;
+//     successModalView: ISuccessView;
+//     cartCounter: ICartCounter;
 
 
-    setCatalog(items: IProduct[]): void;
-    openProductView(productId: string): void;
-    addToCart(product: IProduct): void;
-    removeFromCart(productId: string): void;
-    updateCart(): void;
-    openOrderView(): void;
-    setPaymentMethod(paymemtMethod: PaymemtMethod): void;
-    setDeliveryAddress(address: string): void;
-    openClientView(): void;
-    setEmail(email: string): void;
-    setPhone(phone: string): void;
-    showSuccessModal(): void;
-    openCartView(): void;
-    submitOrder(): Promise<void>;
-}
+//     setCatalog(items: IProduct[]): void;
+//     openProductView(productId: string): void;
+//     addToCart(product: IProduct): void;
+//     removeFromCart(productId: string): void;
+//     updateCart(): void;
+//     openOrderView(): void;
+//     setPaymentMethod(paymemtMethod: PaymemtMethod): void;
+//     setDeliveryAddress(address: string): void;
+//     openClientView(): void;
+//     setEmail(email: string): void;
+//     setPhone(phone: string): void;
+//     showSuccessModal(): void;
+//     openCartView(): void;
+//     submitOrder(): Promise<void>;
+// }
