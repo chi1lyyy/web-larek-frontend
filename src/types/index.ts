@@ -20,6 +20,13 @@ interface IProduct {
     price: number | null; //для бесценного товара.
 }
 
+interface IProductModel {
+    products: IProduct;
+
+    setProducts(): Promise<IProduct[]>;
+    getProductById(id: string): Promise<IProduct>;
+}
+
 interface ICart {
     items: IProduct[];
 
@@ -28,6 +35,7 @@ interface ICart {
     getItems(): IProduct[];
     clearCart(): void;
     countProducts(): number;
+    countTotalPrice(): number;
     isInCart(id: string): boolean
 }
 
@@ -49,29 +57,24 @@ interface IOrder {
     setEmail(email: string): void;
     setPhone(phone: string): void;
     setAddress(address: string): void;
-    setCartData(cart: ICart): void;
-    validate(): boolean
+    validate(): boolean;
+    returnOrder(): IOrderData
 }
 
 
 //Интерфейс для настройки отображения каталога карточек
-interface ICatalogView {
-    gallery: HTMLElement;
-    cardTemplate: HTMLTemplateElement;
-
-    createCard(product: IProduct): HTMLElement;
-    render(products: IProduct[]): void
-}
 interface IPage {
+    _wrapper: HTMLElement, 
+    _catalog: HTMLElement, 
+    _counter: HTMLElement, 
+    _basket: HTMLElement;
     
+    set counter(value: number);
+    set catalog(items: HTMLElement[]);
+    set locked(value: boolean)
+
 }
-// interface ICartCounter {
-//     cartCounter: HTMLElement;
-
-//     updateCartAmount(amount: number): void;
-// }
-
-//
+  
 interface IModalWindow {
     modalElement: HTMLElement;
     closeButton: HTMLButtonElement;
@@ -84,34 +87,40 @@ interface IModalWindow {
 }
 
 interface IProductView {
-    cardImage: HTMLElement;
-    cardCategory: HTMLElement;
-    cardTitle: HTMLElement;
-    cardText: HTMLElement;
-    cardPrice: HTMLElement;
-    cardButton: HTMLButtonElement;
+    _cardImage: HTMLElement;
+    _cardCategory: HTMLElement;
+    _cardTitle: HTMLElement;
+    _cardPrice: HTMLElement;
+    
+    set cardImage(value: string);
+    set cardCategory(value: string);
+    set cardTitle(value: string);
+    set cardPrice(value: number)
+}
+interface IDetailedProductView {
+    _cardDescription: HTMLElement;
+    _cardButton: HTMLButtonElement;
 
-    render(product: IProduct): void;
-    changeButton(): void
+    setButtonText (value: string): void;
+
+    set cardDescription(value: string);
 }
 
-interface ICartView {
-    basketList: HTMLElement;
-    totalPrice: HTMLElement;
-    orderButton: HTMLButtonElement;
 
-    render(items: IProduct[]): void;
-    createCartItem(item: IProduct): HTMLElement
+interface ICartView {
+    _basketList: HTMLElement;
+    _basketItemDeleteButton: HTMLButtonElement;
+    _totalPrice: HTMLElement;
+    _orderButton: HTMLButtonElement;
+
+    set basketList(items: HTMLElement[]);
+    set totalPrice(total: number)
 }
 
 interface IOrderView {
     paymentButtons: NodeListOf<HTMLButtonElement>;
     addressInput: HTMLInputElement;
     nextButton: HTMLButtonElement;
-
-    handlePaymentSelection(event: MouseEvent): void;
-    handleAddressInput(event: Event): void;
-    toggleNextButton(): void
 }
 
 interface IClientView {
@@ -119,40 +128,10 @@ interface IClientView {
     phoneInput: HTMLInputElement;
     payButton: HTMLButtonElement;
 
-    handleInputs(event: Event): void;
-    render(): void;
-    togglePayButton(): void
+    handleInputs(event: Event): void
 }
 
 interface ISuccessView {
     totalPrice: number;
     closeButton: HTMLButtonElement
 }
-
-// interface IApp {
-//     apiService: IApiService;
-//     cart: ICart;
-//     order: IOrder;
-//     catalogView: ICatalogView;
-//     cartView: ICartView;
-//     orderView: IOrderView;
-//     clientView: IClientView;
-//     successModalView: ISuccessView;
-//     cartCounter: ICartCounter;
-
-
-//     setCatalog(items: IProduct[]): void;
-//     openProductView(productId: string): void;
-//     addToCart(product: IProduct): void;
-//     removeFromCart(productId: string): void;
-//     updateCart(): void;
-//     openOrderView(): void;
-//     setPaymentMethod(paymemtMethod: PaymemtMethod): void;
-//     setDeliveryAddress(address: string): void;
-//     openClientView(): void;
-//     setEmail(email: string): void;
-//     setPhone(phone: string): void;
-//     showSuccessModal(): void;
-//     openCartView(): void;
-//     submitOrder(): Promise<void>;
-// }
